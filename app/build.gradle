@@ -1,4 +1,18 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.+'
+    }
+}
+
 apply plugin: 'android'
+
+repositories {
+    maven { url 'http://maven.onthego.io/' }
+}
+
 
 android {
     compileSdkVersion 19
@@ -20,5 +34,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:19.+'
+    compile 'io.onthego:opencv-java:2.4.6p2'
+    compile 'io.onthego:opencv-android:2.4.6p2'
+    compile 'io.onthego:ari-android:0.9.1'
 }
