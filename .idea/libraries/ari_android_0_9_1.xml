@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="ari-android-0.9.1">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/exploded-aar/io.onthego/ari-android/0.9.1/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/exploded-aar/io.onthego/ari-android/0.9.1/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

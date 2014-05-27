@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Application</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="ari_api_key">eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX3VzZXJuYW1lIjoiZGF2aWQuaG1rIiwidXNlcl9lbWFpbCI6ImRhdmlkLmhta0BvdG1haWwuY29tIiwib3JkZXJfZGF0ZSI6IjIwMTQtMDUtMjYgMTQ6MTk6MjkiLCJvcmRlcl9pZCI6MTExMSwib3JkZXJfbGluZSI6MCwibGljZW5zZSI6ImRlbW8iLCJ2ZXJzaW9uIjoxfQ.MoWht5Qf1VKVoKJaXM-4pDajZmNkokeZF8x2ME3CzJerrumW9M6cdEYLAcTQdOTOw4guU71R6gNBR_3IYLafCLwaosOzDGQ7CiYsojDN6zt9rn4-ZqwVqleBGASIuGnj2LABg5OMkECeJBvFKlpum_JesMWi6F2xlB9V_XLrY9o</string>
+
+
+    <string name="testing">Testing</string>
+
+
+</resources>
