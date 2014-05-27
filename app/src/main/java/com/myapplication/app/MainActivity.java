@@ -1,9 +1,10 @@
 package com.myapplication.app;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,10 +21,12 @@ import io.onthego.ari.event.RightSwipeEvent;
 
 //added by David Ho
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends Activity
         implements Ari.StartCallback,
@@ -36,7 +39,15 @@ public class MainActivity extends Activity
     private ActiveAri mAri;
     //googled it
     private static final String TAG = "MainActivity";
+
+    //taking photos variable
     static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    //Saving photo information variable
+    String mCurrentPhotoPath;
+
+    //creating the photo
+    static final int REQUEST_TAKE_PHOTO = 1;
 
 
 
@@ -61,13 +72,14 @@ public class MainActivity extends Activity
         }
 
 
+        dispatchTakePictureIntent();
+
+
+
+
+
+
     }
-
-
-
-
-
-
 
 
 
@@ -165,47 +177,55 @@ public class MainActivity extends Activity
         test.setText("Got hand swipe right");
     }
 
+    //saving photo file information function
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+
+
+
+    //save the photo
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                //...
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+    //add photo to the gallery
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
 }
-
-class Preview extends ViewGroup implements SurfaceHolder.Callback {
-
-    SurfaceView mSurfaceView;
-    SurfaceHolder mHolder;
-
-    Preview(Context context) {
-        super(context);
-
-        mSurfaceView = new SurfaceView(context);
-        addView(mSurfaceView);
-
-        // Install a SurfaceHolder.Callback so we get notified when the
-        // underlying surface is created and destroyed.
-        mHolder = mSurfaceView.getHolder();
-        mHolder.addCallback(this);
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-    }
-
-    @Override
-    protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder surfaceHolder) {
-
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
-    }
-
-}
-
-
-
